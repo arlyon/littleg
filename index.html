@@ -1,99 +1,118 @@
 <html>
 <head>
-    <link href="https://fonts.googleapis.com/css?family=Racing+Sans+One" rel="stylesheet">
+    <meta charset="utf-8"/>
+    <title>Gravity</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <style>
         body {
-            background-color: rgb(140, 230, 125);
             color: white;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Racing Sans One', cursive;
+            font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol, monospace;
             text-align: center;
+            min-height: 100vh;
+            margin: 0;
+            background-image: linear-gradient(to top, #48c6ef 0%, #6f86d6 100%);
+            font-size: 2em;
+            padding: 2em;
+            box-sizing: border-box;
+        }
+
+        #icon {
+            max-height: 6em;
         }
 
         #average {
-            color: rgba(0, 0, 0, 0);
-            transition: color 2s ease 1s;
+            opacity: 0;
+            transition: opacity 2s ease 1s;
         }
 
-        #output {
-            color: white;
-            font-size: 2.7em;
+        #average.reveal {
+            opacity: inherit;
         }
     </style>
 </head>
 <body>
+    <div id="content">
+        <!-- Gravity Icon by Seymur Allahyarli from the Noun Project -->
+        <svg id="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54.83 60.72">
+            <defs>
+                <style>.cls-1 {
+                    fill: #fff;
+                }</style>
+            </defs>
+            <g id="Layer_2" data-name="Layer 2">
+                <g id="Layer_1-2" data-name="Layer 1">
+                    <path class="cls-1"
+                          d="M25,20.19a13.26,13.26,0,0,0-9,1.29l1,1.76a11.23,11.23,0,0,1,8-1V23h2v-.15a12.38,12.38,0,0,1,4.48,2.92l1.41-1.42a14.55,14.55,0,0,0-5.31-3.43l-.58-.2V17H25Z"/>
+                    <path class="cls-1"
+                          d="M37.64,30.56c-.38.34-.7.65-1,.91a15.61,15.61,0,0,0,5,2,9.74,9.74,0,0,0,3,.1,12.91,12.91,0,0,0,7.22-4,13.29,13.29,0,0,0-8-2.07A12.43,12.43,0,0,0,37.64,30.56ZM12,24.56V12h2V34H12V27.67a28.13,28.13,0,0,0-2.41,3.78c-3,5.67-3.06,12.34-.06,16.6a5.72,5.72,0,0,0,.75.88,9.9,9.9,0,0,0,2.59,1.81,5.17,5.17,0,0,1,2.34,2.33A10.11,10.11,0,0,0,17,55.66a8,8,0,0,0,.89.75c4.26,3,10.93,3,16.6-.07,5-2.67,8.48-6.4,9.61-10.23a9.68,9.68,0,0,0-.9-7.55,13.16,13.16,0,0,0-2.25-3l-.22-.21a17.56,17.56,0,0,1-5.53-2.44,12.64,12.64,0,0,1-1.5,1.85l-1.42-1.41a14.93,14.93,0,0,0,4-11.36l2-.21a15.46,15.46,0,0,1-.67,6.3,13.26,13.26,0,0,1,6-2.52C49,24.89,53.81,28.47,54,28.63l.81.61-.64.8c-.15.2-3.9,4.85-9.28,5.53-.4,0-.8.07-1.19.07a15.3,15.3,0,0,1,1.26,2,11.7,11.7,0,0,1,1,9.13c-1.29,4.34-5.14,8.5-10.59,11.42a20.87,20.87,0,0,1-9.83,2.53,15.27,15.27,0,0,1-8.86-2.59,8.41,8.41,0,0,1-1.15-1A11.8,11.8,0,0,1,13.41,54,3.15,3.15,0,0,0,12,52.56a12.45,12.45,0,0,1-3.11-2.18,9.93,9.93,0,0,1-1-1.15c-3.42-4.86-3.45-12.38-.06-18.7A27,27,0,0,1,12,24.56Z"/>
+                    <rect class="cls-1" y="33" width="2" height="17"/>
+                    <rect class="cls-1" y="27" width="2" height="2"/>
+                    <rect class="cls-1" y="22" width="2" height="2"/>
+                    <rect class="cls-1" y="17" width="2" height="2"/>
+                    <rect class="cls-1" x="20" y="4" width="2" height="15"/>
+                    <rect class="cls-1" x="25" y="13" width="2" height="2"/>
+                    <rect class="cls-1" x="32" width="2" height="17"/>
+                    <path class="cls-1" d="M39.42,42.67a9,9,0,0,1-3.62,6.59l1.26,1.55a10.92,10.92,0,0,0,4.36-8Z"/>
+                    <path class="cls-1"
+                          d="M31.15,51.94l.77,1.84a22.79,22.79,0,0,0,2.93-1.45l-1-1.72A22.53,22.53,0,0,1,31.15,51.94Z"/>
+                    <path class="cls-1" d="M38.4,38V36a7.14,7.14,0,0,1-7.13-7.12h-2A9.14,9.14,0,0,0,38.4,38Z"/>
+                </g>
+            </g>
+        </svg>
+        <h4>Your current gravitational acceleration is</h4>
+        <h1 id="output">0.00000 m/s</h1>
+        <h4 id="average">_</h4>
+    </div>
+    <script src="countUp.js"></script>
+    <script>
+        function displayOutput(elevation) {
 
-<div id="content">
-    <h1>your gravitational acceleration is</h1>
-    <h1 id="output">0.0000</h1>
-    <div id="average"></div>
-</div>
+            const easingFn = (t, b, c, d) => {
+                const ts = (t /= d) * t;
+                const tc = ts * t;
+                return b + c * (tc + -3 * ts + 3 * t);
+            };
 
-<script src="countUp.js"></script>
-<script>
-    function initMap() {
-        if (navigator.geolocation) {
+            const options = {
+                easingFn,
+                useEasing: true,
+                useGrouping: true,
+                separator: ',',
+                decimal: '.',
+                duration: 3,
+                suffix: " m/s"
+            };
 
-            navigator.geolocation.getCurrentPosition(function (position) {
-                pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-                var elevator = new google.maps.ElevationService;
-                var elevation = displayLocationElevation(pos, elevator);
+            const average = document.getElementById("average");
+            const M = 5.9722e+24;
+            const G = 6.67408e-11;
+            const re = 6371e+3 + elevation;
+            const r = 6371e+3;
+            const decimals = 5;
 
-                function displayLocationElevation(location, elevator) {
-                    // Initiate the location request
-                    elevator.getElevationForLocations({
-                        'locations': [location]
-                    }, function (results, status) {
-                        if (status === 'OK') {
-                            if (results[0]) {
-                                displayOutput(results[0].elevation);
-                            }
-                        }
-                    });
-                }
+            const g = ((M * G) / (re * re));
+            const percent = (((g / ((M * G) / (r * r))) - 1) * 100).toFixed(5);
 
-                function displayOutput(elevation) {
-
-                    const easingFn = function (t, b, c, d) {
-                        var ts = (t /= d) * t;
-                        var tc = ts * t;
-                        return b + c * (tc + -3 * ts + 3 * t);
-                    };
-
-                    const options = {
-                        useEasing: true,
-                        easingFn: easingFn,
-                        useGrouping: true,
-                        separator: ',',
-                        decimal: '.'
-                    };
-
-                    const average = document.getElementById("average");
-                    const M = 5.9722e+24;
-                    const G = 6.67408e-11;
-                    const re = 6371e+3 + elevation;
-                    const r = 6371e+3;
-                    const decimals = 5;
-
-                    const g = ((M * G) / (re * re));
-                    const percent = (((g / ((M * G) / (r * r))) - 1) * 100).toFixed(5);
-
-                    average.innerHTML = "You are " + Math.abs(percent) + "% " + (percent > 0 ? "heavier" : "lighter") + " than sea level.";
-
-                    setTimeout(function () {
-                        average.style.color = "white"
-                    }, 2000);
-
-                    const counter = new CountUp("output", 0, g, decimals, 3, options);
-                    counter.start();
-                }
-            });
+            average.innerHTML = "making you " + Math.abs(percent) + "% " + (percent > 0 ? "heavier" : "lighter") + " than sea level.";
+            setTimeout(() => average.classList.add("reveal"), (options.duration - 1) * 1000);
+            new CountUp("output", 0, g, decimals, options.duration, options).start();
         }
-    }
-</script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV2RKJQT0_4e1eqdBtD_vwH6df3yV2FYM&callback=initMap"></script>
+
+        function initMap() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    (new google.maps.ElevationService).getElevationForLocations(
+                        {'locations': [pos]},
+                        (results, status) => status === 'OK' && results.length ? displayOutput(results[0].elevation) : null
+                    );
+                });
+            }
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV2RKJQT0_4e1eqdBtD_vwH6df3yV2FYM&callback=initMap"></script>
 </body>
 </html>
