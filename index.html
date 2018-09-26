@@ -1,0 +1,99 @@
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Racing+Sans+One" rel="stylesheet">
+    <style>
+        body {
+            background-color: rgb(140, 230, 125);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Racing Sans One', cursive;
+            text-align: center;
+        }
+
+        #average {
+            color: rgba(0, 0, 0, 0);
+            transition: color 2s ease 1s;
+        }
+
+        #output {
+            color: white;
+            font-size: 2.7em;
+        }
+    </style>
+</head>
+<body>
+
+<div id="content">
+    <h1>your gravitational acceleration is</h1>
+    <h1 id="output">0.0000</h1>
+    <div id="average"></div>
+</div>
+
+<script src="countUp.js"></script>
+<script>
+    function initMap() {
+        if (navigator.geolocation) {
+
+            navigator.geolocation.getCurrentPosition(function (position) {
+                pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+                var elevator = new google.maps.ElevationService;
+                var elevation = displayLocationElevation(pos, elevator);
+
+                function displayLocationElevation(location, elevator) {
+                    // Initiate the location request
+                    elevator.getElevationForLocations({
+                        'locations': [location]
+                    }, function (results, status) {
+                        if (status === 'OK') {
+                            if (results[0]) {
+                                displayOutput(results[0].elevation);
+                            }
+                        }
+                    });
+                }
+
+                function displayOutput(elevation) {
+
+                    const easingFn = function (t, b, c, d) {
+                        var ts = (t /= d) * t;
+                        var tc = ts * t;
+                        return b + c * (tc + -3 * ts + 3 * t);
+                    };
+
+                    const options = {
+                        useEasing: true,
+                        easingFn: easingFn,
+                        useGrouping: true,
+                        separator: ',',
+                        decimal: '.'
+                    };
+
+                    const average = document.getElementById("average");
+                    const M = 5.9722e+24;
+                    const G = 6.67408e-11;
+                    const re = 6371e+3 + elevation;
+                    const r = 6371e+3;
+                    const decimals = 5;
+
+                    const g = ((M * G) / (re * re));
+                    const percent = (((g / ((M * G) / (r * r))) - 1) * 100).toFixed(5);
+
+                    average.innerHTML = "You are " + Math.abs(percent) + "% " + (percent > 0 ? "heavier" : "lighter") + " than sea level.";
+
+                    setTimeout(function () {
+                        average.style.color = "white"
+                    }, 2000);
+
+                    const counter = new CountUp("output", 0, g, decimals, 3, options);
+                    counter.start();
+                }
+            });
+        }
+    }
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV2RKJQT0_4e1eqdBtD_vwH6df3yV2FYM&callback=initMap"></script>
+</body>
+</html>
